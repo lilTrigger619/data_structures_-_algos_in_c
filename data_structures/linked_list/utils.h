@@ -1,14 +1,17 @@
+#define MAX_BUFFER 10000
+
 // display  the menu of the app.
-void show_menu(){
+void show_menu(char* items){
+	system("clear");
   printf(
       "\n\n********* Menu *********\n\n"
-      "Items: [[ Empty list ]]\n"
+      "Items:\t%s\t\n"
       "1. Add element to begining of list.\n"
       "2. Add element after the last item in the list.\n"
       "3. Remove Head/first element from the list.\n"
       "4. Remove last element from the list.\n"
       "5. Reset the list.\n"
-      "6. Exit."
+      "6. Exit.", items
       );
 }; // end of show_menu func.
 
