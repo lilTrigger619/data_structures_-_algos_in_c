@@ -39,7 +39,7 @@ void add_begining(){
   int input;
   show_int_prompt(&input);
   if( Head == NULL ){
-    Tmp=(struct node*)malloc(sizeof struct node);
+    Tmp=(struct node*)malloc(sizeof(struct node));
     Tmp->next = NULL;
     Tmp->data = input;
     Head = Tmp;
