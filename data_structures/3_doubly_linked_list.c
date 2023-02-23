@@ -71,8 +71,36 @@ char insert_first(int value) {
     Head = tmp;
     tmp = NULL;
   };
-};
-char insert_last(int);
+  return 0;
+}; // end of insert_first func.
+   
+   
+// function to insert element after the last in the list.
+char insert_last(int value){
+  if(Head == NULL){
+    tmp = (char node*)malloc(sizeof(struct node));
+    tmp->data =  value;
+    tmp->next = NULL;
+    tmp->prev = NULL;
+    Head = tmp;
+    tmp = NULL;
+    return 0;
+  };
+
+  // when the head is not equal to null
+  tmp = Head;
+  while(tmp != NULL){
+    tmp1 = tmp;
+    tmp = tmp->next;
+  };
+  struct node* new_last = (char node*)malloc(size(struct node));
+  new_last->next = NULL;
+  new_last->data = value;
+  new_last->prev = tmp1;
+  tmp1->next = new_last;
+  return new_last->data;
+}// end of insert_last func.
+
 char remove_first(int);
 char remove_last(int);
 
