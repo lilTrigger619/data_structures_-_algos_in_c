@@ -29,12 +29,36 @@ int main() {
   } while (input_listener_handler() != exit_key);
 
   return 0;
-};
+}; // end of main func.
 
-int remove_last_element() { return 0; };
+// remove the last element in the list.
+int remove_last_element() {
+  if (Head == NULL)
+    return 0;
+  if (Head->next == NULL) {
+    Head = NULL;
+    return 0;
+  } else {
+    tmp = Head;
+    // loop until reaches the last item in the list (whose tmp->next is null).
+    while (tmp->next != NULL) {
+      tmp1 = tmp;
+      tmp = tmp->next;
+    };
+    tmp1->next = NULL;
+  };
+  return 0;
+}; // end of remove_last_element func.
 
-int remove_first_element() { return 0; };
+// remove the first element in the list.
+int remove_first_element() { 
+  if(Head == NULL) return 0;
+  tmp = Head;
+  Head = tmp->next;
+  return 0; 
+}; // end of remove_first_elment func.
 
+// insert element before the first element.
 int insert_first_element(int element) {
   if (Head != NULL) {
     tmp = Head;
@@ -50,10 +74,31 @@ int insert_first_element(int element) {
     Head = tmp1;
     return element;
   }
-};
+}; // end of insert_first_element func.
 
-int insert_last_element(int element){};
+// insert element after the last element.
+int insert_last_element(int element) {
+  if (Head != NULL) {
+    struct node *reserve;
+    tmp = Head;
+    tmp1 = (struct node*)malloc(sizeof(struct node));
+    tmp1->next = NULL;
+    tmp1->data = element;
+    while (tmp != NULL) {
+      reserve = tmp;
+      tmp = tmp->next;
+    }
+    reserve->next = tmp1;
+  } else {
+    tmp1 = (struct node*)malloc(sizeof(struct node));
+    tmp1->next = NULL;
+    tmp1->data = element;
+    Head = tmp1;
+  };
+  return 0;
+}; // end of insert_last_element func.
 
+// display_menu
 void display_menu(char *list_buffer) {
   system("clear");
   printf("\nItems: %s\n", create_list_buffer(list_buffer));
@@ -63,8 +108,9 @@ void display_menu(char *list_buffer) {
       "\n\t3. Remove the begining element. \n\t4. Remove the last. "
       "element. \n\t5. Reset list. \n\t6. Exit.\n\nNOTE: Enter the characters "
       "without the (.) character. \n\n -> ");
-};
+}; // end of display_menu func.
 
+// input_listener_handler.
 char input_listener_handler() {
   char input = getchar();
   getchar(); // fix infinite getchar loop in c.
@@ -100,7 +146,7 @@ char input_listener_handler() {
     break;
   };
   return input;
-};
+}; // end of input_listener handler func.
 
 // char[MAXBUFFER] create_list_buffer() {
 char *create_list_buffer(char *list_buffer) {
@@ -127,15 +173,10 @@ char *create_list_buffer(char *list_buffer) {
     strcat(list_buffer, "->NULL");
   }
   return list_buffer;
-};
+}; // end of create list_buffer func.
 
 // reset the data structure.
 void reset_list() {
-  tmp = Head;
-  if (Head == NULL) {
-    printf("List has been reseted!");
-  } else {
+  if (Head != NULL)
     Head = NULL;
-    printf("List has been reseted!");
-  }
-};
+}; // end of reset_list func
