@@ -78,7 +78,7 @@ char insert_first(int value) {
 // function to insert element after the last in the list.
 char insert_last(int value){
   if(Head == NULL){
-    tmp = (char node*)malloc(sizeof(struct node));
+    tmp = (struct node*)malloc(sizeof(struct node));
     tmp->data =  value;
     tmp->next = NULL;
     tmp->prev = NULL;
@@ -93,7 +93,7 @@ char insert_last(int value){
     tmp1 = tmp;
     tmp = tmp->next;
   };
-  struct node* new_last = (char node*)malloc(size(struct node));
+  struct node* new_last = (struct node*)malloc(sizeof(struct node));
   new_last->next = NULL;
   new_last->data = value;
   new_last->prev = tmp1;
@@ -114,14 +114,18 @@ char input_listener() {
   case '1':
     printf("\nEnter value to be inserted\n -> ");
     scanf("%d", &value); // collecting the value.
-    getchar();
+    getchar(); //fix the other characters that are still in the input stream.
     return insert_first(value);
-  case '2':
+    case '2':
+    printf("\nEnter value to be inserted\n -> ");
+    scanf("%d", &value); // collecting the value.
+    getchar(); //fix the other characters that are still in the input stream.
+    return insert_last(value);
   case '3':
   case '4':
   case '5':
   case '6':
-    printf("\nFunction not implemented !");
+    printf("\nFunction not implemented !\n\n");
     return key;
     break;
   default:
