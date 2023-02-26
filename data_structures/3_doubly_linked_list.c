@@ -16,8 +16,8 @@ char *create_list_buffer();
 char list_buffer[MAXBUFFER];
 char insert_first(int);
 char insert_last(int);
-char remove_first(int);
-char remove_last(int);
+char remove_first();
+char remove_last();
 char input_listener();
 void display_menu();
 
@@ -65,11 +65,14 @@ char insert_first(int value) {
     tmp = NULL;
     //printf("Heads data %d", Head->data);
   } else {
-    tmp = (struct node *)malloc(sizeof(struct node));
-    tmp->next = Head;
-    tmp->data = value;
-    Head = tmp;
-    tmp = NULL;
+    tmp1 = (struct node *)malloc(sizeof(struct node)); // new node.
+    tmp = Head; // tmp(Head) -> ....
+    tmp->prev = tmp1; // new_node < - (prev)tmp -> ...
+    tmp1->next = tmp; // new_node(next) - >  tmp -> ....
+    tmp1->data = value; // new_node(data) =value
+    Head = tmp1; // new_node(Head) -<>-  .....
+    tmp = NULL; // derefrencing
+    tmp1 = NULL; // derefrencing
   };
   return 0;
 }; // end of insert_first func.
@@ -101,8 +104,39 @@ char insert_last(int value){
   return new_last->data;
 }// end of insert_last func.
 
-char remove_first(int);
-char remove_last(int);
+// remove the first element
+char remove_first(){
+  if (Head == NULL) return 0;
+  tmp = Head->next;
+  Head = tmp;
+  return 1;
+}; // end of remove_first func.
+   
+// remove_last func.   
+char remove_last(){
+  if (Head == NULL) return 0;
+  tmp = Head;
+  if (tmp->next == NULL){  // when the next value of head is null remove head.
+    tmp = NULL;
+    Head = NULL;
+    return 1;
+  };
+  while(tmp != NULL){
+    tmp1  = tmp; // buckup the current node
+    tmp = tmp->next;
+  };
+  tmp = tmp1->prev; // last-but-one <- last-node.
+  tmp1 = NULL;
+  tmp->next = NULL; // last-but-one (now last) -> NULL .
+  //tmp = NULL;  // clear pointer.
+  return 0;
+}; // end of remove_last func
+   
+char reset_list(){
+  if (Head == NULL) return 0;
+ Head = NULL;
+ return 1;
+};
 
 char input_listener() {
   char key;
@@ -111,24 +145,39 @@ char input_listener() {
   //printf("the input is %c", key);
   int value; // for the value to be inserted.
   switch (key) {
-  case '1':
+  case '1': // insert to begining of list.
     printf("\nEnter value to be inserted\n -> ");
     scanf("%d", &value); // collecting the value.
     getchar(); //fix the other characters that are still in the input stream.
     return insert_first(value);
-    case '2':
+    break;
+    case '2': // insert to end of list 
     printf("\nEnter value to be inserted\n -> ");
     scanf("%d", &value); // collecting the value.
     getchar(); //fix the other characters that are still in the input stream.
     return insert_last(value);
-  case '3':
-  case '4':
+    break;
+  case '3': // remove element at the begining
+    return remove_first(value);
+    break;
+  case '4': // remove element at the end.
+    return remove_last(value);
+    break;
   case '5':
+    printf("\nAre you sure you wanna remove the last element?\n (Y/N) -> ");
+    char confirm = getchar();
+    getchar();
+    if(confirm == 'Y' || confirm == 'y' ){
+      reset_list();
+      return 0;
+    }else return 0;
+    break;
   case '6':
-    printf("\nFunction not implemented !\n\n");
     return key;
     break;
   default:
+    printf("\nFunction not implemented !\n\n");
+    return 0;
     break;
   };
   return key;
